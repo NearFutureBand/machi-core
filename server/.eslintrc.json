@@ -1,0 +1,23 @@
+{
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "extends": [
+    "eslint:recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "warn",
+    "react/prop-types": "off",
+    "import/no-anonymous-default-export": "off",
+    "react/no-unescaped-entities": "off",
+    "array-callback-return": "off",
+    "react/display-name": "off"
+  }
+}
