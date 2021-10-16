@@ -21,7 +21,7 @@ wsServer.on("connection", (wsClient) => {
       game.start();
     }
 
-    wsClient.send(JSON.stringify(game));
+    wsClient.send(JSON.stringify({ type: message.type, game, status: 200 }));
   });
 
   // wsClient.send('Привет');
