@@ -10,7 +10,7 @@ const App = () => {
   const [game, setGame] = useState({});
 
   useEffect(() => {
-    socket.current = new WebSocket("ws://localhost:9000");
+    socket.current = new WebSocket("ws://172.20.10.2:9000");
 
     socket.current.onopen = () => {
       console.log("CLIENT: connected to server")
