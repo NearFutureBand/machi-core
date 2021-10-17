@@ -54,7 +54,7 @@ const App = () => {
       return {};
     }
     return game.players.find((player) => player.name === name);
-  }, [game.players]);
+  }, [game.players, name]);
   
   console.log(game, me);
   const activePlayerName = useMemo(() => {
@@ -72,7 +72,7 @@ const App = () => {
         <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
         <button onClick={() => register(name)}>Register</button>
       </div>
-    )
+    ) 
   }
 
   if (!isGameStarted) {
