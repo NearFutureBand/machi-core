@@ -1,4 +1,5 @@
-//const cards = require("./cards.json");
+const cards = require("./cards.json");
+const { CARD_EFFECTS } = require("./cardEffects");
 
 const DEFAULT_COMPANIES = [0, 1];
 const DEFAULT_SIGHTS = [3];
@@ -20,9 +21,21 @@ class Player {
 
   _prepareDefaultCompanies() {
     return DEFAULT_COMPANIES.reduce((result, sight) => {
-      result[sight] = true;
+      result[sight] = 1;
       return result;
     }, {});
+  }
+
+  addMoney(amount) {
+    this.cash += amount;
+  }
+
+  addIncome(diceNumber, hisTurn) {
+    for (const companyId in this.companies) {
+      if (cards[companyId].effectOn.some((item) => item === diceNumber)) {
+        CARD_EFFECTS[companyId](this, hisTurn);
+      }
+    }
   }
 }
 

@@ -1,15 +1,49 @@
-import { useState, useEffect, useRef, useCallback, useMemo} from "react";
+import { useState, useEffect, useRef, useMemo, useCallback} from "react";
 import CARDS from "../src/cards.json";
+import { randomInteger } from "./helpers";
 
 const App = () => {
 
   const socket = useRef(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [name, setName] = useState("Roman");
+  const [name, setName] = useState("");
   const [game, setGame] = useState({});
 
+  const me = useMemo(() => {
+    if (!game.players) {
+      return {};
+    }
+    return game.players.find((player) => player.name === name);
+  }, [game.players, name]);
+
   useEffect(() => {
+    if (me && !isRegistered && me.name === name) {
+      setIsRegistered(true);
+    }
+  }, [me, isRegistered]);
+
+  const onMessage = (message) => {
+    const action = JSON.parse(message.data);
+    console.log("CLIENT: message received", action);
+      
+    if (action.type === "REGISTER") {
+      if (action.game) {
+        setGame(action.game);
+      }
+    }
+
+    if (action.type === "START_GAME") {
+      setIsGameStarted(true);
+    }
+
+    if (action.game) {
+      setGame(action.game);
+    }
+  }
+
+  useEffect(() => {
+    console.log("socket effect");
     socket.current = new WebSocket("ws://172.20.10.2:9000");
 
     socket.current.onopen = () => {
@@ -23,23 +57,7 @@ const App = () => {
     }
   }, []);
 
-  const onMessage = useCallback((message) => {
-    const action = JSON.parse(message.data);
-    console.log("CLIENT: message received", action);
-      
-    if (action.type === "REGISTER") {
-      if (action.game) {
-        setIsRegistered(true);
-      }
-    }
-
-    if (action.type === "START_GAME") {
-      if (action.game) {
-        setGame(action.game);
-        setIsGameStarted(true);
-      }
-    }
-  }, []);
+  console.log({ isRegistered })
 
   const register = (name) => {
     socket.current.send(JSON.stringify({ type: "REGISTER", name }));
@@ -48,13 +66,6 @@ const App = () => {
   const startGame = () => {
     socket.current.send(JSON.stringify({ type: "START_GAME" }));
   }
-
-  const me = useMemo(() => {
-    if (!game.players) {
-      return {};
-    }
-    return game.players.find((player) => player.name === name);
-  }, [game.players, name]);
   
   console.log(game, me);
   const activePlayerName = useMemo(() => {
@@ -64,6 +75,10 @@ const App = () => {
   const amIActivePlayer = useMemo(() => {
     return activePlayerName === name;
   }, [activePlayerName, name]);
+
+  const startPhaseOne = () => {
+    socket.current.send(JSON.stringify({ type: "PHASE_INCOME" }));
+  }
 
   if (!isRegistered) {
     return (
@@ -78,8 +93,13 @@ const App = () => {
   if (!isGameStarted) {
     return (
       <div>
-        You ready! Now press the button below!
-        <button onClick={startGame}>START GAME</button>
+        <div>
+          You ready! Now press the button below! <br />
+          Players: {game?.players?.length || 1}
+        </div>
+        <div>
+          <button onClick={startGame}>START GAME</button>
+        </div>
       </div>
     )
   }
@@ -89,7 +109,11 @@ const App = () => {
       {amIActivePlayer ? `Your turn, ${activePlayerName}!` : `Now ${activePlayerName}'s turn`}
       {amIActivePlayer && (
         <div>
-          <button>Бросить кубик</button>
+          {game.dice?.length === 0 ? (
+            <button onClick={startPhaseOne}>Бросить кубик</button>
+          ) : (
+            <div>Выпавшее число: { game.dice[0] }</div>
+          )}
           <button>Купить предприятие</button>
         </div>
       )}

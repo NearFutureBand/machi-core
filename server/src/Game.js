@@ -4,6 +4,7 @@ class Game {
   constructor() {
     this.players = [];
     this.activePlayer = null;
+    this.dice = [];
   }
 
   addPlayer(player) {

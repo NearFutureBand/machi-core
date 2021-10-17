@@ -3,7 +3,7 @@
     "id": 0,
     "name": "Пшеничное поле",
     "price": 0,
-    "effectOn": 1,
+    "effectOn": [1],
     "closed": false,
     "count": 1
   },
@@ -11,7 +11,7 @@
     "id": 1,
     "name": "Пекарня",
     "price": 0,
-    "effectOn": 2,
+    "effectOn": [ 2, 3],
     "closed": false,
     "count": 1
   },
@@ -19,7 +19,7 @@
     "id": 2,
     "name": "Ферма",
     "price": 1,
-    "effectOn": 2,
+    "effectOn": [2],
     "closed": false,
     "count": 1
   },

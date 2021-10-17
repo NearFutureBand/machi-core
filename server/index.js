@@ -2,6 +2,7 @@ const { WebSocket, WebSocketServer } = require("ws");
 const Player = require("./src/Player");
 const Game = require("./src/Game");
 const MESSAGE_TYPE = require("./src/messageTypes");
+const { randomInteger } = require("./src/helpers");
 
 const wsServer = new WebSocketServer({ port: 9000, host: "172.20.10.2" });
 
@@ -25,16 +26,24 @@ wsServer.on("connection", (wsClient) => {
       game.start();
     }
 
+    if (message.type === MESSAGE_TYPE.PHASE_INCOME) {
+      // сгенерить число на кубике, его положить в респонс
+      // кейс если два кубика
+      const number = 1; //randomInteger(1, 6);
+      game.dice = [number];
+
+      // рассчитать заработки всех игроков на основе их предприятий
+
+      game.players.map((player) => {
+        player.addIncome(number, player.name === game.activePlayer.name);
+        return player;
+      });
+    }
+
     clients.forEach((client) => {
-      console.log(client.url);
       client.send(JSON.stringify({ type: message.type, game }));
     });
   });
-
-  // wsClient.send('Привет');
-  // wsClient.on('message', function(message) {
-  //     /* обработчик сообщений от клиента */
-  //   }
   // wsClient.on('close', function() {
   //     // отправка уведомления в консоль
   //     console.log('Пользователь отключился');
