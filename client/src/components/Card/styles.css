@@ -1,6 +1,6 @@
 .card {
-  height: 13.5rem;
-  width: 9rem;
+  height: 13.4rem;
+  width: 8.9rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +14,11 @@
   cursor: pointer;
 }
 
-/* .card:hover {
-  height: 20rem;
-  width: 13rem;
-} */
+.card:hover {
+  height: 20.1rem;
+  width: 13.35rem;
+  border-radius: 1.5rem;
+}
 
 .card .card-image {
   width: "100%";

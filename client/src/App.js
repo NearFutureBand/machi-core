@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useMemo, useCallback} from "react";
 import CARDS from "./constants/cards.json"; // TODO remove from FE
 
-import { Card, CompanyStore } from "./components";
+import { Card, CompanyStore, Registration, Lobby, Player } from "./components";
 import { API_ADRESS } from "./constants";
+import "./App.css";
 
 const App = () => {
   const socket = useRef(null);
@@ -84,61 +85,46 @@ const App = () => {
 
   if (!isRegistered) {
     return (
-      <div>
-        Please register to start the game
-        <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
-        <button onClick={() => register(name)}>Register</button>
-      </div>
-    ) 
+      <Registration
+        name={name}
+        onChangeName={(event) => setName(event.target.value)}
+        onRegistration={() => register(name)}
+      />
+    );
   }
 
   if (!isGameStarted) {
     return (
-      <div>
-        <div>
-          You ready! Now press the button below! <br />
-          Players: {game?.players?.length || 1}
-        </div>
-        <div>
-          <button onClick={startGame}>START GAME</button>
-        </div>
-      </div>
+      <Lobby
+        name={name}
+        howManyPlayers={game?.players?.length || 0}
+        onGameStart={startGame}
+      />
     )
   }
 
   return (
     <div className="App">
-      {amIActivePlayer ? `Your turn, ${activePlayerName}!` : `Now ${activePlayerName}'s turn`}
+      <div className="whos-turn">{amIActivePlayer ? `Ваш ход, ${activePlayerName}!` : `Ходит: ${activePlayerName}`}</div>
       {amIActivePlayer && (
         <div>
           {game.dice?.length === 0 ? (
             <button onClick={startPhaseOne}>Бросить кубик</button>
           ) : (
-            <div>Выпавшее число: { game.dice[0] }</div>
+            <h3>Выпавшее число: { game.dice[0] }</h3>
           )}
           <button onClick={() => setIsStoreOpen(true)}>Купить предприятие</button>
         </div>
       )}
-      <h4>Деньги: {me.cash}</h4>
-      <div className="my-cards">
-        <div className="sights">
-          Достопримечательности
-          {Object.keys(me.sights).map((cardId) => (
-            <Card id={cardId} />
-          ))}
-        </div>
-        <div className="companies">
-          Предприятия
-          {Object.keys(me.companies).map((cardId) => (
-            <Card id={cardId} />
-          ))}
-        </div>
-      </div>
+      <Player player={me} />
       {game.players && (
         <div>
           Другие игроки:
           {game.players.map((player) => {
             if (player.name === name) return;
+            return (
+               <Player player={player} />
+            )
             return (
               <div>
                 <h5>{player.name}, деньги: {player.cash}</h5>
