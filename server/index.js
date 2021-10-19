@@ -4,7 +4,9 @@ const Game = require("./src/Game");
 const MESSAGE_TYPE = require("./src/messageTypes");
 const { randomInteger } = require("./src/helpers");
 
-const wsServer = new WebSocketServer({ port: 9000, host: "172.20.10.2" });
+// iphone wifi 172.20.10.2
+
+const wsServer = new WebSocketServer({ port: 9000, host: "localhost" });
 
 const game = new Game();
 

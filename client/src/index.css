@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -14,21 +15,4 @@ code {
 
 .my-cards > div {
   display: flex;
-}
-
-.card {
-  height: 10rem;
-  width: 6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid grey;
-  border-radius: 1rem;
-  margin: 1rem;
-}
-
-.card.card-smaller {
-  height: 8rem;
-  width: 5rem;
-  font-size: 0.8rem;
 }

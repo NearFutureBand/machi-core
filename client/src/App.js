@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useMemo, useCallback} from "react";
-import CARDS from "../src/cards.json";
-import { randomInteger } from "./helpers";
+import CARDS from "./constants/cards.json"; // TODO remove from FE
+
+import { Card } from "./components";
+import { API_ADRESS } from "./constants";
 
 const App = () => {
-
   const socket = useRef(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
@@ -44,7 +45,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("socket effect");
-    socket.current = new WebSocket("ws://172.20.10.2:9000");
+    socket.current = new WebSocket(API_ADRESS);
 
     socket.current.onopen = () => {
       console.log("CLIENT: connected to server")
@@ -122,17 +123,13 @@ const App = () => {
         <div className="sights">
           Достопримечательности
           {Object.keys(me.sights).map((cardId) => (
-            <div className="card">
-              {CARDS[cardId].name}
-            </div>
+            <Card id={cardId} />
           ))}
         </div>
         <div className="companies">
           Предприятия
           {Object.keys(me.companies).map((cardId) => (
-            <div className="card">
-              {CARDS[cardId].name}
-            </div>
+            <Card id={cardId} />
           ))}
         </div>
       </div>
@@ -147,17 +144,13 @@ const App = () => {
                 <div>
                   Достопримечательности
                   {Object.keys(player.sights).map((cardId) => (
-                    <div className="card card-smaller">
-                      {CARDS[cardId].name}
-                    </div>
+                    <Card id={cardId} />
                   ))}
                 </div>
                 <div>
                   Предприятия
                   {Object.keys(player.companies).map((cardId) => (
-                    <div className="card card-smaller">
-                      {CARDS[cardId].name}
-                    </div>
+                    <Card id={cardId} />
                   ))}
                 </div>
               </div>
