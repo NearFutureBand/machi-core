@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback} from "react";
 import CARDS from "./constants/cards.json"; // TODO remove from FE
 
-import { Card } from "./components";
+import { Card, CompanyStore } from "./components";
 import { API_ADRESS } from "./constants";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [name, setName] = useState("");
   const [game, setGame] = useState({});
+  const [isStoreOpen, setIsStoreOpen] = useState(false);
 
   const me = useMemo(() => {
     if (!game.players) {
@@ -115,7 +116,7 @@ const App = () => {
           ) : (
             <div>Выпавшее число: { game.dice[0] }</div>
           )}
-          <button>Купить предприятие</button>
+          <button onClick={() => setIsStoreOpen(true)}>Купить предприятие</button>
         </div>
       )}
       <h4>Деньги: {me.cash}</h4>
@@ -157,6 +158,9 @@ const App = () => {
             )
           })}
         </div>
+      )}
+      {isStoreOpen && (
+        <CompanyStore onClose={() => setIsStoreOpen(false)} />
       )}
     </div>
   );
