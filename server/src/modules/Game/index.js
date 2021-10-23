@@ -1,4 +1,4 @@
-const { getRandomIntInclusive } = require("./helpers");
+const { getRandomIntInclusive } = require("../../helpers");
 
 class Game {
   constructor() {

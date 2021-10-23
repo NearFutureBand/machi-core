@@ -1,5 +1,4 @@
-const cards = require("./cards.json");
-const { CARD_EFFECTS } = require("./cardEffects");
+const { CARDS, CARD_EFFECTS } = require("../Cards");
 
 const DEFAULT_COMPANIES = [0, 1];
 const DEFAULT_SIGHTS = [3];
@@ -32,7 +31,7 @@ class Player {
 
   addIncome(diceNumber, hisTurn) {
     for (const companyId in this.companies) {
-      if (cards[companyId].effectOn.some((item) => item === diceNumber)) {
+      if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
         CARD_EFFECTS[companyId](this, hisTurn);
       }
     }
