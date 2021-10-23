@@ -16,6 +16,7 @@ wsServer.on("connection", (wsClient) => {
 
   wsClient.on("message", (m) => {
     const message = JSON.parse(m);
+    let report = [];
     console.log("SERVER: message: ", message.type);
 
     if (message.type === MESSAGE_TYPES.REGISTER) {
@@ -29,12 +30,14 @@ wsServer.on("connection", (wsClient) => {
     if (message.type === MESSAGE_TYPES.PHASE_INCOME) {
       // сгенерить число на кубике, его положить в респонс
       // кейс если два кубика
-      const number = 1; //randomInteger(1, 6);
+      const number = 2; //randomInteger(1, 6);
       game.dice = [number];
 
+      report.push(`На кубике выпало число ${number}`);
       // рассчитать заработки всех игроков на основе их предприятий
       game.players.map((player) => {
-        player.addIncome(number, player.name === game.activePlayer.name);
+        const incomeReport = player.addIncome(number, player.name === game.activePlayer.name);
+        report = [...report, ...incomeReport];
         return player;
       });
     }
@@ -50,7 +53,7 @@ wsServer.on("connection", (wsClient) => {
     }
 
     clients.forEach((client) => {
-      client.send(JSON.stringify({ type: message.type, game }));
+      client.send(JSON.stringify({ type: message.type, game, report }));
     });
   });
   // wsClient.on('close', function() {

@@ -30,11 +30,16 @@ class Player {
   }
 
   addIncome(diceNumber, hisTurn) {
+    const incomeReport = [];
     for (const companyId in this.companies) {
       if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
-        CARD_EFFECTS[companyId](this, hisTurn);
+        const report = CARD_EFFECTS[companyId](this, hisTurn);
+        if (report) {
+          incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+        }
       }
     }
+    return incomeReport;
   }
 
   build(cardId) {

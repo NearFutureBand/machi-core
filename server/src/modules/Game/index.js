@@ -15,10 +15,6 @@ class Game {
     this.activePlayer = this.players[getRandomIntInclusive(0, this.players.length - 1)];
   }
 
-  go() {
-    // переключить активного игрока
-  }
-
   setNextActivePlayer() {
     const currentActivePlayerIndex = this.players.findIndex(
       (player) => player.name === this.activePlayer.name
