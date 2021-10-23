@@ -50,11 +50,8 @@ class Player {
     }
 
     if (card.type === "sight") {
-      if (cardId in this.sights) {
-        this.sights[cardId] = this.sights[cardId] + 1;
-      } else {
-        this.sights[cardId] = 1;
-      }
+      // TODO возможность снести достопримечательность
+      this.sights[cardId] = true;
     }
   }
 }

@@ -19,8 +19,8 @@ const Player = memo(({ player }) => {
         </div>
         <div className="companies">
           Предприятия
-          {Object.keys(player.companies).map((cardId) => (
-            <Card id={cardId} key={cardId}/>
+          {Object.entries(player.companies).map(([cardId, howMany]) => (
+            <Card id={cardId} key={cardId} howMany={howMany} />
           ))}
         </div>
       </div>
