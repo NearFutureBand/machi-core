@@ -83,8 +83,8 @@ const App = () => {
     sendWebsocketMessage("PHASE_INCOME");
   }
 
-  const onCardClickInStore = (card) => {
-    console.log("onCardClickInStore",  card);
+  const onBuyCard = (card) => {
+    sendWebsocketMessage("PHASE_BUILDING", { cardId: card.id });
   }
 
   if (!isRegistered) {
@@ -127,13 +127,13 @@ const App = () => {
           {game.players.map((player) => {
             if (player.name === name) return;
             return (
-               <Player player={player} />
+              <Player player={player} />
             )
           })}
         </div>
       )}
       {isStoreOpen && (
-        <CompanyStore onClose={() => setIsStoreOpen(false)} onCardClick={onCardClickInStore} />
+        <CompanyStore onClose={() => setIsStoreOpen(false)} onBuyCard={onBuyCard} />
       )}
     </div>
   );

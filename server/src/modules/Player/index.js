@@ -36,6 +36,27 @@ class Player {
       }
     }
   }
+
+  build(cardId) {
+    const card = CARDS[cardId];
+    this.cash -= card.price;
+
+    if (card.type === "company") {
+      if (cardId in this.companies) {
+        this.companies[cardId] = this.companies[cardId] + 1;
+      } else {
+        this.companies[cardId] = 1;
+      }
+    }
+
+    if (card.type === "sight") {
+      if (cardId in this.sights) {
+        this.sights[cardId] = this.sights[cardId] + 1;
+      } else {
+        this.sights[cardId] = 1;
+      }
+    }
+  }
 }
 
 module.exports = Player;

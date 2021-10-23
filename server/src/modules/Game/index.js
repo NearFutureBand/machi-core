@@ -18,6 +18,16 @@ class Game {
   go() {
     // переключить активного игрока
   }
+
+  setNextActivePlayer() {
+    const currentActivePlayerIndex = this.players.findIndex(
+      (player) => player.name === this.activePlayer.name
+    );
+    const nextActivePlayerIndex =
+      currentActivePlayerIndex === this.players.length - 1 ? 0 : currentActivePlayerIndex + 1;
+    this.activePlayer = this.players[nextActivePlayerIndex];
+    this.dice = [];
+  }
 }
 
 module.exports = Game;

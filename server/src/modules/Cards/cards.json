@@ -5,7 +5,8 @@
     "price": 0,
     "effectOn": [1],
     "closed": false,
-    "count": 1
+    "count": 1,
+    "type": "company"
   },
   "1": {
     "id": 1,
@@ -13,7 +14,8 @@
     "price": 0,
     "effectOn": [2, 3],
     "closed": false,
-    "count": 1
+    "count": 1,
+    "type": "company"
   },
   "2": {
     "id": 2,
@@ -21,14 +23,15 @@
     "price": 1,
     "effectOn": [2],
     "closed": false,
-    "count": 1
+    "count": 1,
+    "type": "company"
   },
   "3": {
     "id": 3,
     "name": "Ратуша",
     "price": 0,
     "isExtension": true,
-    "isSight": true,
-    "closed": true
+    "closed": true,
+    "type": "sight"
   }
 }

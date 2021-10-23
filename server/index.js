@@ -39,6 +39,16 @@ wsServer.on("connection", (wsClient) => {
       });
     }
 
+    if (message.type === MESSAGE_TYPES.PHASE_BUILDING) {
+      // TODO: проверка возможно ли купить (здесь, можно создать метод в классе Player)
+
+      // добавляем id карты в нужный объект
+      game.activePlayer.build(message.cardId);
+
+      // переключить activePlayer
+      game.setNextActivePlayer();
+    }
+
     clients.forEach((client) => {
       client.send(JSON.stringify({ type: message.type, game }));
     });

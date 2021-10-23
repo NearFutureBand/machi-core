@@ -6,11 +6,20 @@ import { Card } from "../Card";
 import { Modal } from "../Modal";
 import "./styles.scss";
 
-const CompanyStore = memo(({ onClose, onCardClick }) => {
+const CompanyStore = memo(({ onClose, onBuyCard }) => {
 
   const companies = Object.values(CARDS).filter(card => card.price !== 0);
-
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const closeConfirmModal = () => {
+    setSelectedCard(null);
+  }
+
+  const onConfirmPurchase = () => {
+    onBuyCard(selectedCard)
+    closeConfirmModal();
+    onClose();
+  }
 
   return (
     <>
@@ -28,8 +37,8 @@ const CompanyStore = memo(({ onClose, onCardClick }) => {
           <div className="confirm-company-purchase">
             <h3>Купить предприятие {selectedCard.name}?</h3>
             <div className="buttons">
-              <button onClick={() => onBuyCard(selectedCard)}>Купить</button>
-              <button onClick={() => setSelectedCard(null)}>Отмена</button>
+              <button onClick={onConfirmPurchase}>Купить</button>
+              <button onClick={closeConfirmModal}>Отмена</button>
             </div>
           </div>
         </Modal>

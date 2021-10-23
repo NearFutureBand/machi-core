@@ -4,7 +4,6 @@ import "./styles.scss";
 const Modal = memo(({ children, onClose, hideCloseButtons, layer = 1, size }) => {
 
   const sizes = { width: size === "huge" ? "60%" : "auto", height: size === "huge" ? "90%" : "auto" };
-  console.log(sizes);
 
   return (
     <div className="modal-background" style={{ zIndex: layer * 2 }}>
