@@ -4,7 +4,7 @@ import { CARD_IMAGES } from "../../assets";
 
 import "./styles.scss";
 
-const Card = memo(({ id }) => {
+const Card = memo(({ id, onClick }) => {
 
   const cardObject = CARDS[id];
   const image = CARD_IMAGES[id];
@@ -14,7 +14,7 @@ const Card = memo(({ id }) => {
   };
   
   return (
-    <div className="card" style={style}>
+    <div className="card" style={style} onClick={onClick}>
       {/* {image && <img className="card-image" src={image} />} */}
       {!CARD_IMAGES[id] && cardObject.name}
     </div>

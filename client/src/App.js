@@ -83,6 +83,10 @@ const App = () => {
     sendWebsocketMessage("PHASE_INCOME");
   }
 
+  const onCardClickInStore = (card) => {
+    console.log("onCardClickInStore",  card);
+  }
+
   if (!isRegistered) {
     return (
       <Registration
@@ -129,7 +133,7 @@ const App = () => {
         </div>
       )}
       {isStoreOpen && (
-        <CompanyStore onClose={() => setIsStoreOpen(false)} />
+        <CompanyStore onClose={() => setIsStoreOpen(false)} onCardClick={onCardClickInStore} />
       )}
     </div>
   );

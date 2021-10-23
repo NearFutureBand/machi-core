@@ -1,35 +1,6 @@
-.modal-background {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-
-  .modal {
-    padding: 1rem;
-    border-radius: 1rem;
-    width: 60%;
-    height: 90%;
-    background: white;
-    z-index: 2;
+.confirm-company-purchase {
+  .buttons {
     display: flex;
-    flex-direction: column;
-    padding-top: 2rem;
-    position: relative;
-
-    .button-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-    }
-
-    .company-store {
-      flex: 1;
-    }
+    justify-content: space-around;
   }
 }
