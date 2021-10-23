@@ -3,10 +3,10 @@ import CARDS from "./constants/cards.json"; // TODO remove from FE
 
 import { Card, CompanyStore, Registration, Lobby, Player } from "./components";
 import { API_ADRESS } from "./constants";
-import "./App.css";
+import "./App.scss";
+import { useWebsocket } from "./hooks";
 
 const App = () => {
-  const socket = useRef(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [name, setName] = useState("");
@@ -26,7 +26,7 @@ const App = () => {
     }
   }, [me, isRegistered]);
 
-  const onMessage = (message) => {
+  const onWebsocketMessage = (message) => {
     const action = JSON.parse(message.data);
     console.log("CLIENT: message received", action);
       
@@ -45,32 +45,32 @@ const App = () => {
     }
   }
 
+  const onWebsocketOpen = () => {
+    console.log('CLIENT: connected to the server');
+  }
+
+  const {
+    openWebsocketConnection,
+    closeWebsocketConnection,
+    sendWebsocketMessage,
+    isConnected
+  } = useWebsocket({ onOpen: onWebsocketOpen, onMessage: onWebsocketMessage });
+
   useEffect(() => {
-    console.log("socket effect");
-    socket.current = new WebSocket(API_ADRESS);
-
-    socket.current.onopen = () => {
-      console.log("CLIENT: connected to server")
-    }
-
-    socket.current.onmessage = onMessage;
-
+    openWebsocketConnection();
     return () => {
-      socket.current.close();
+      closeWebsocketConnection();
     }
   }, []);
 
-  console.log({ isRegistered })
-
   const register = (name) => {
-    socket.current.send(JSON.stringify({ type: "REGISTER", name }));
+    sendWebsocketMessage("REGISTER",  { name });
   }
 
   const startGame = () => {
-    socket.current.send(JSON.stringify({ type: "START_GAME" }));
+    sendWebsocketMessage("START_GAME");
   }
   
-  console.log(game, me);
   const activePlayerName = useMemo(() => {
     return game?.activePlayer?.name;
   }, [game?.activePlayer]);
@@ -79,8 +79,8 @@ const App = () => {
     return activePlayerName === name;
   }, [activePlayerName, name]);
 
-  const startPhaseOne = () => {
-    socket.current.send(JSON.stringify({ type: "PHASE_INCOME" }));
+  const startStepPhaseOne = () => {
+    sendWebsocketMessage("PHASE_INCOME");
   }
 
   if (!isRegistered) {
@@ -109,7 +109,7 @@ const App = () => {
       {amIActivePlayer && (
         <div>
           {game.dice?.length === 0 ? (
-            <button onClick={startPhaseOne}>Бросить кубик</button>
+            <button onClick={startStepPhaseOne}>Бросить кубик</button>
           ) : (
             <h3>Выпавшее число: { game.dice[0] }</h3>
           )}
@@ -124,23 +124,6 @@ const App = () => {
             if (player.name === name) return;
             return (
                <Player player={player} />
-            )
-            return (
-              <div>
-                <h5>{player.name}, деньги: {player.cash}</h5>
-                <div>
-                  Достопримечательности
-                  {Object.keys(player.sights).map((cardId) => (
-                    <Card id={cardId} />
-                  ))}
-                </div>
-                <div>
-                  Предприятия
-                  {Object.keys(player.companies).map((cardId) => (
-                    <Card id={cardId} />
-                  ))}
-                </div>
-              </div>
             )
           })}
         </div>

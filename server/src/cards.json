@@ -11,7 +11,7 @@
     "id": 1,
     "name": "Пекарня",
     "price": 0,
-    "effectOn": [ 2, 3],
+    "effectOn": [2, 3],
     "closed": false,
     "count": 1
   },

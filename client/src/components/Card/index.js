@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 import CARDS from "../../constants/cards.json";
 import { CARD_IMAGES } from "../../assets";
 
-import "./styles.css";
+import "./styles.scss";
 
 const Card = memo(({ id }) => {
 
