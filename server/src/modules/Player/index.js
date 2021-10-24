@@ -31,11 +31,15 @@ class Player {
 
   addIncome(diceNumber, hisTurn) {
     const incomeReport = [];
+    console.log(this);
     for (const companyId in this.companies) {
       if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
-        const report = CARD_EFFECTS[companyId](this, hisTurn);
-        if (report) {
-          incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+        const suchCompanyCount = this.companies[companyId];
+        for (let i = 0; i < suchCompanyCount; i++) {
+          const report = CARD_EFFECTS[companyId](this, hisTurn);
+          if (report) {
+            incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+          }
         }
       }
     }
@@ -43,21 +47,27 @@ class Player {
   }
 
   build(cardId) {
+    let report = "";
     const card = CARDS[cardId];
     this.cash -= card.price;
 
     if (card.type === "company") {
       if (cardId in this.companies) {
         this.companies[cardId] = this.companies[cardId] + 1;
+        report = `${this.name} покупает еще одно предприятие '${card.name}' за ${card.price}`;
       } else {
         this.companies[cardId] = 1;
+        report = `${this.name} покупает предприятие '${card.name}' за ${card.price}`;
       }
     }
 
     if (card.type === "sight") {
       // TODO возможность снести достопримечательность
       this.sights[cardId] = true;
+      report = `${this.name} открывает достопримечательность '${card.name}' за ${card.price}`;
     }
+
+    return report;
   }
 }
 

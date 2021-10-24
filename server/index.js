@@ -35,7 +35,7 @@ wsServer.on("connection", (wsClient) => {
       const number = 2; //randomInteger(1, 6);
       game.dice = [number];
 
-      report.push(`На кубике выпало число ${number}`);
+      report.push(`Ходит игрок ${game.activePlayer.name}. На кубике выпало число ${number}`);
       // рассчитать заработки всех игроков на основе их предприятий
       game.players.map((player) => {
         const incomeReport = player.addIncome(number, player.name === game.activePlayer.name);
@@ -48,8 +48,8 @@ wsServer.on("connection", (wsClient) => {
       // TODO: проверка возможно ли купить (здесь, можно создать метод в классе Player)
 
       // добавляем id карты в нужный объект
-      game.activePlayer.build(message.cardId);
-
+      const buildingReport = game.activePlayer.build(message.cardId);
+      report.push(buildingReport);
       // переключить activePlayer
       game.setNextActivePlayer();
     }

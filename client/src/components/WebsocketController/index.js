@@ -27,6 +27,10 @@ const WebsocketController = memo(() => {
       dispatch(setIsGameStarted(true));
     }
 
+    if (action.type === "PHASE_INCOME") {
+      dispatch(addReport(["-----------------"]));
+    }
+
     if (action.game) {
       dispatch(setGame(action.game));
     }

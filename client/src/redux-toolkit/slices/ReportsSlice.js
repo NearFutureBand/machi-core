@@ -5,7 +5,7 @@ export const ReportsSlice = createSlice({
   name: 'reports',
   initialState: [],
   reducers: {
-    addReport: (state, action) => [...state, ...action.payload]
+    addReport: (state, action) => [...[...action.payload].reverse(), ...state]
   }
 });
 
