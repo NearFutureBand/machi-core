@@ -1,0 +1,39 @@
+{
+  "0": {
+    "id": 0,
+    "name": "Пшеничное поле",
+    "price": 0,
+    "effectOn": [1],
+    "count": 1,
+    "type": "company"
+  },
+  "1": {
+    "id": 1,
+    "name": "Пекарня",
+    "price": 0,
+    "effectOn": [2, 3],
+    "count": 1,
+    "type": "company"
+  },
+  "2": {
+    "id": 2,
+    "name": "Ферма",
+    "price": 1,
+    "effectOn": [2],
+    "count": 1,
+    "type": "company"
+  },
+  "3": {
+    "id": 3,
+    "name": "Ратуша",
+    "price": 0,
+    "isExtension": true,
+    "type": "sight"
+  },
+  "4": {
+    "id": 4,
+    "name": "Порт",
+    "price": 2,
+    "type": "sight"
+  }
+}
