@@ -10,9 +10,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
   /* font-family: "UbuntuCondensed, sans-serif"; */
   height: 100%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 #root {

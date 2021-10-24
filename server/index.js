@@ -21,10 +21,12 @@ wsServer.on("connection", (wsClient) => {
 
     if (message.type === MESSAGE_TYPES.REGISTER) {
       game.addPlayer(new Player(message.name));
+      report.push(`Игрок ${message.name} зарегистрировался`);
     }
 
     if (message.type === MESSAGE_TYPES.START_GAME) {
       game.start();
+      report.push(`Игра началась`);
     }
 
     if (message.type === MESSAGE_TYPES.PHASE_INCOME) {

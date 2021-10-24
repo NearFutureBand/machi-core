@@ -7,6 +7,10 @@ import "./styles.css";
 
 const Player = memo(({ player }) => {
 
+  if (!player.name) {
+    return null;
+  }
+
   return (
     <div className="player">
       <h3>{player.name}. Деньги: {player.cash}</h3>
