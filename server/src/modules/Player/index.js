@@ -1,7 +1,7 @@
 const { CARDS, CARD_EFFECTS } = require("../Cards");
 
 const DEFAULT_COMPANIES = [0, 1];
-const DEFAULT_SIGHTS = [3];
+const DEFAULT_SIGHTS = [3, 4];
 
 class Player {
   constructor(name) {
@@ -13,7 +13,7 @@ class Player {
 
   _prepareDefaultSights() {
     return DEFAULT_SIGHTS.reduce((result, sight) => {
-      result[sight] = true;
+      result[sight] = sight === 3; // TODO только ратуша построена по умолчанию
       return result;
     }, {});
   }

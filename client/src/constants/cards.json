@@ -4,7 +4,6 @@
     "name": "Пшеничное поле",
     "price": 0,
     "effectOn": [1],
-    "closed": false,
     "count": 1,
     "type": "company"
   },
@@ -13,7 +12,6 @@
     "name": "Пекарня",
     "price": 0,
     "effectOn": [2, 3],
-    "closed": false,
     "count": 1,
     "type": "company"
   },
@@ -22,7 +20,6 @@
     "name": "Ферма",
     "price": 1,
     "effectOn": [2],
-    "closed": false,
     "count": 1,
     "type": "company"
   },
@@ -31,7 +28,12 @@
     "name": "Ратуша",
     "price": 0,
     "isExtension": true,
-    "closed": true,
+    "type": "sight"
+  },
+  "4": {
+    "id": 4,
+    "name": "Порт",
+    "price": 2,
     "type": "sight"
   }
 }
