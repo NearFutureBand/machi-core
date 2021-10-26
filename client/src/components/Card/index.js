@@ -1,4 +1,6 @@
 import { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
+
 import CARDS from "../../constants/cards.json";
 import { CARD_IMAGES } from "../../assets";
 
@@ -8,7 +10,6 @@ const CARD_HEIGHT = 13.4;
 const CARD_WIDTH = 8.9;
 
 const Card = memo(({ id, onClick, howMany, isOpen }) => {
-
   const cardObject = CARDS[id];
   const image = cardObject.type === "company" ? CARD_IMAGES[id] : (isOpen ? CARD_IMAGES[id].open : CARD_IMAGES[id].closed);
   const style = {
@@ -19,7 +20,6 @@ const Card = memo(({ id, onClick, howMany, isOpen }) => {
   };
 
   const hoverEffect = howMany === 1;
-  
   return (
     <div>
       {new Array(howMany).fill(0).map((item, index) => {
@@ -28,7 +28,7 @@ const Card = memo(({ id, onClick, howMany, isOpen }) => {
           <div
             className="card"
             style={cardStyle}
-            onClick = { onClick }
+            onClick = {() => onClick(cardObject)}
             key = { index }
           >
             {!CARD_IMAGES[id] && cardObject.name}

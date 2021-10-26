@@ -27,7 +27,7 @@ const CompanyStore = memo(({ onClose, onBuyCard }) => {
         <div className="company-store">
           {companies.map((company) => {
             return (
-              <Card id={company.id} key={company.id} onClick={() => setSelectedCard(CARDS[company.id])}/>
+              <Card id={company.id} key={company.id} onClick={(card) => setSelectedCard(card)}/>
             )
           })}
         </div>
