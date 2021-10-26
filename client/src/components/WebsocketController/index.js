@@ -1,8 +1,16 @@
-import { memo, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { API_ADRESS } from "../../constants";
-import { setGame, setIsRegistered, addReport, setIsGameStarted } from "../../redux-toolkit/slices";
+import {
+  getPlayerName,
+  setGame,
+  registerPlayer,
+  addReport,
+  setIsGameStarted,
+  setIsPhaseIncome,
+  setIsPhaseBuilding,
+} from "../../redux-toolkit/slices";
 
 import "./styles.css";
 
@@ -19,23 +27,31 @@ const WebsocketController = memo(() => {
 
     if (action.type === "REGISTER") {
       if (action.game) {
-        dispatch(setIsRegistered(true));
+        dispatch(registerPlayer(action.game));
       }
     }
 
     if (action.type === "START_GAME") {
       dispatch(setIsGameStarted(true));
+      dispatch(setIsPhaseIncome(true));
     }
 
     if (action.type === "PHASE_INCOME") {
       dispatch(addReport(["-----------------"]));
+      dispatch(setIsPhaseIncome(false));
+      dispatch(setIsPhaseBuilding(true));
+    }
+
+    if (action.type === "PHASE_BUILDING") {
+      dispatch(setIsPhaseIncome(true));
+      dispatch(setIsPhaseBuilding(false));
     }
 
     if (action.game) {
       dispatch(setGame(action.game));
     }
     dispatch(addReport(action.report));
-  }
+  };
 
   const onWebsocketOpen = () => {
     console.log('CLIENT: connected to the server');

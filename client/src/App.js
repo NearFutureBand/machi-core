@@ -3,7 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { CompanyStore, Player, useWebsocketSend } from "./components";
 import "./App.scss";
-import { addReport, getGame, getIsRegistered, getMe, getPlayerName } from "./redux-toolkit/slices";
+import {
+  addReport,
+  getGame,
+  getIsRegistered,
+  getMe,
+  getPlayerName,
+  getIsPhaseIncome,
+  getIsPhaseBuilding,
+} from "./redux-toolkit/slices";
 
 
 const App = () => {
@@ -13,6 +21,8 @@ const App = () => {
   const game = useSelector(getGame);
   const me = useSelector(getMe);
   const playerName = useSelector(getPlayerName);
+  const isPhaseIncome = useSelector(getIsPhaseIncome);
+  const isPhaseBuilding = useSelector(getIsPhaseBuilding);
 
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   
@@ -32,18 +42,20 @@ const App = () => {
     sendWebsocketMessage("PHASE_BUILDING", { cardId: card.id });
   }
 
-
   return (
     <div className="App">
       <div className="whos-turn">{amIActivePlayer ? `Ваш ход, ${activePlayerName}!` : `Ходит: ${activePlayerName}`}</div>
       {amIActivePlayer && (
         <div>
-          {game.dice?.length === 0 ? (
+          {isPhaseIncome && (
             <button onClick={startStepPhaseOne}>Бросить кубик</button>
-          ) : (
-            <h3>Выпавшее число: { game.dice[0] }</h3>
           )}
-          <button onClick={() => setIsStoreOpen(true)}>Купить предприятие</button>
+          {isPhaseBuilding && (
+            <>
+              <h3>Выпавшее число: {game.dice[0]}</h3>
+              <button onClick={() => setIsStoreOpen(true)}>Купить предприятие</button>
+            </>
+          )}
         </div>
       )}
       <Player player={me} />

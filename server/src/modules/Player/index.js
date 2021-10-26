@@ -31,7 +31,6 @@ class Player {
 
   addIncome(diceNumber, hisTurn) {
     const incomeReport = [];
-    console.log(this);
     for (const companyId in this.companies) {
       if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
         const suchCompanyCount = this.companies[companyId];
