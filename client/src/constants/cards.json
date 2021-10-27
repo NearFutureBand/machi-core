@@ -4,23 +4,22 @@
     "name": "Пшеничное поле",
     "price": 0,
     "effectOn": [1],
-    "count": 1,
-    "type": "company"
+    "type": "company",
+    "default": true
   },
   "1": {
     "id": 1,
     "name": "Пекарня",
     "price": 0,
     "effectOn": [2, 3],
-    "count": 1,
-    "type": "company"
+    "type": "company",
+    "default": true
   },
   "2": {
     "id": 2,
     "name": "Ферма",
     "price": 1,
     "effectOn": [2],
-    "count": 1,
     "type": "company"
   },
   "3": {
@@ -28,12 +27,113 @@
     "name": "Ратуша",
     "price": 0,
     "isExtension": true,
-    "type": "sight"
+    "type": "sight",
+    "default": true
   },
   "4": {
     "id": 4,
     "name": "Порт",
     "price": 2,
     "type": "sight"
+  },
+  "5": {
+    "id": 5,
+    "name": "Кафе",
+    "price": 2,
+    "effectOn": [3],
+    "type": "company"
+  },
+  "6": {
+    "id": 6,
+    "name": "Аэропорт",
+    "price": 30,
+    "type": "sight"
+  },
+  "7": {
+    "id": 7,
+    "name": "Парк развлечений",
+    "price": 16,
+    "type": "sight"
+  },
+  "8": {
+    "id": 8,
+    "name": "Пекарня",
+    "price": 1,
+    "effectOn": [2, 3],
+    "type": "company"
+  },
+  "9": {
+    "id": 9,
+    "name": "Сыроварня",
+    "price": 5,
+    "effectOn": [7],
+    "type": "company"
+  },
+  "10": {
+    "id": 10,
+    "name": "Кукурузное поле",
+    "price": 2,
+    "effectOn": [3, 4],
+    "type": "company"
+  },
+  "11": {
+    "id": 11,
+    "name": "Демонтажная компания",
+    "price": 2,
+    "effectOn": [4],
+    "type": "company"
+  },
+  "12": {
+    "id": 12,
+    "name": "Цветник",
+    "price": 2,
+    "effectsOn": [4],
+    "type": "company"
+  },
+  "13": {
+    "id": 13,
+    "name": "Цветочный магазин",
+    "price": 1,
+    "effectsOn": [6],
+    "type": "company"
+  },
+  "14": {
+    "id": 14,
+    "name": "Радиовышка",
+    "price": 22,
+    "type": "sight"
+  },
+  "15": {
+    "id": 15,
+    "name": "Вокзал",
+    "price": 4,
+    "type": "sight"
+  },
+  "16": {
+    "id": 16,
+    "name": "Магазин",
+    "price": 2,
+    "effectsOn": [4],
+    "type": "company"
+  },
+  "17": {
+    "id": 17,
+    "name": "Торговый центр",
+    "price": 10,
+    "type": "sight"
+  },
+  "18": {
+    "id": 18,
+    "name": "Универсам",
+    "price": 0,
+    "effectsOn": [2],
+    "type": "company"
+  },
+  "19": {
+    "id": 19,
+    "name": "Пшеничное поле",
+    "price": 1,
+    "effectOn": [1],
+    "type": "company"
   }
 }
