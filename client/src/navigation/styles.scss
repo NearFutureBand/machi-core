@@ -1,0 +1,13 @@
+.navigator {
+  position: relative;
+  padding-bottom: 10rem;
+
+  .reports-wrapper {
+    width: 100%;
+    position: fixed;
+    height: 10rem;
+    bottom: 0;
+    border: 1px solid #eee;
+    border-radius: 1rem;
+  }
+}
