@@ -95,7 +95,7 @@
     "id": 12,
     "name": "Цветник",
     "price": 2,
-    "effectsOn": [4],
+    "effectOn": [4],
     "type": "company",
     "class": "green"
   },
@@ -103,7 +103,7 @@
     "id": 13,
     "name": "Цветочный магазин",
     "price": 1,
-    "effectsOn": [6],
+    "effectOn": [6],
     "type": "company",
     "class": "green"
   },
@@ -123,7 +123,7 @@
     "id": 16,
     "name": "Магазин",
     "price": 2,
-    "effectsOn": [4],
+    "effectOn": [4],
     "type": "company",
     "class": "green"
   },
@@ -137,7 +137,7 @@
     "id": 18,
     "name": "Универсам",
     "price": 0,
-    "effectsOn": [2],
+    "effectOn": [2],
     "type": "company",
     "class": "green"
   },

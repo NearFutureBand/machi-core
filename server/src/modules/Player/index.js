@@ -36,19 +36,32 @@ class Player {
 
   addIncome(diceNumber, hisTurn) {
     const incomeReport = [];
-    for (const companyId in this.companies) {
-      if (
-        CARDS[companyId].class !== "red" &&
-        CARDS[companyId].effectOn.some((item) => item === diceNumber)
-      ) {
-        const suchCompanyCount = this.companies[companyId];
-        for (let i = 0; i < suchCompanyCount; i++) {
-          const report = CARD_EFFECTS[companyId](this, hisTurn);
-          if (report) {
-            incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+    try {
+      for (const companyId in this.companies) {
+        if (!CARDS[companyId]) {
+          throw new Error(`Нет эффекта для карты ${companyId}`);
+        }
+        if (
+          CARDS[companyId].class !== "red" &&
+          CARDS[companyId].effectOn.some((item) => item === diceNumber)
+        ) {
+          const suchCompanyCount = this.companies[companyId];
+          for (let i = 0; i < suchCompanyCount; i++) {
+            const report = CARD_EFFECTS[companyId](this, hisTurn);
+            if (report) {
+              incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+            }
           }
         }
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // если денег нет и есть ратуша добавить 1 монету
+    if (this.cash === 0 && 3 in this.sights) {
+      this.addMoney(1);
+      incomeReport.push(`${this.name}: Ратуша: получена 1 монета`);
     }
     return incomeReport;
   }

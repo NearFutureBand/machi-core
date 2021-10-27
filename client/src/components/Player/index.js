@@ -1,8 +1,6 @@
 import { memo, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import CARDS from "../../constants/cards.json";
-import { CARD_IMAGES } from "../../assets";
 import { Card } from "../Card";
 import { Modal } from "../Modal";
 import { getIsPhaseBuilding } from "../../redux-toolkit/slices";

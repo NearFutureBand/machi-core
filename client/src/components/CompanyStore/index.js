@@ -1,12 +1,15 @@
 import { memo, useState } from "react";
+import { useSelector } from "react-redux";
 
 import CARDS from "../../constants/cards.json";
 import { Card } from "../Card";
 import { Modal } from "../Modal";
+import { getMe } from "../../redux-toolkit/slices";
 import "./styles.scss";
 
 const CompanyStore = memo(({ onClose, onBuyCard }) => {
 
+  const me = useSelector(getMe);
   const companies = Object.values(CARDS).filter(card => card.type === "company" && !card.default);
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -34,11 +37,22 @@ const CompanyStore = memo(({ onClose, onBuyCard }) => {
       {selectedCard && (
         <Modal hideCloseButtons layer={2}>
           <div className="confirm-company-purchase">
-            <h3>Купить предприятие {selectedCard.name}?</h3>
-            <div className="buttons">
-              <button onClick={onConfirmPurchase}>Купить</button>
-              <button onClick={closeConfirmModal}>Отмена</button>
-            </div>
+            {me.cash < selectedCard.price ? (
+              <>
+                <h3>Недостаточно средств чтобы купить {selectedCard.name}</h3>
+                <div className="buttons">
+                  <button onClick={closeConfirmModal}>Эх</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3>Купить предприятие {selectedCard.name} за {selectedCard.price}?</h3>
+                <div className="buttons">
+                  <button onClick={onConfirmPurchase}>Купить</button>
+                  <button onClick={closeConfirmModal}>Отмена</button>
+                </div>
+              </>
+            )}
           </div>
         </Modal>
       )}

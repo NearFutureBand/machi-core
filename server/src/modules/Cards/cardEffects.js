@@ -24,6 +24,28 @@ const CARD_EFFECTS = {
     anotherPlayer.addMoney(amount);
     return `${activePlayer.name} отдает игроку ${anotherPlayer.name} ${amount}`;
   },
+  8: bakeryEffect,
+
+  // 9
+
+  // Кукурузное поле - 1 монета если не более 1-й достопримечательности
+  10: (player) => {
+    const openedSights = Object.values(player.sights).reduce(
+      (count, isOpened) => (isOpened ? count + 1 : count),
+      0
+    );
+    if (openedSights <= 1) {
+      player.addMoney(1);
+      return "добавлена 1 монета, так как построено не более 1 достопримечательности";
+    }
+  },
+
+  //11
+
+  // Цветник
+  12: (player) => {
+    player.addMoney(1);
+  },
 };
 
 module.exports = {
