@@ -42,8 +42,8 @@ const CompanyStore = memo(({ onClose, onBuyCard }) => {
           </div>
         </Modal>
       )}
-  </>
-)
+    </>
+  )
 });
 
 export { CompanyStore };

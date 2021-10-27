@@ -3,6 +3,8 @@ const Player = require("./src/modules/Player");
 const Game = require("./src/modules/Game");
 const { MESSAGE_TYPES } = require("./src/modules/Messages");
 const { PORT, HOST } = require("./src/constants");
+const { CARDS, CARD_EFFECTS } = require("./src/modules/Cards");
+const { randomInteger } = require("./src/helpers");
 
 // iphone wifi 172.20.10.2
 const wsServer = new WebSocketServer({ port: PORT, host: HOST });
@@ -32,10 +34,25 @@ wsServer.on("connection", (wsClient) => {
     if (message.type === MESSAGE_TYPES.PHASE_INCOME) {
       // сгенерить число на кубике, его положить в респонс
       // кейс если два кубика
-      const number = 2; //randomInteger(1, 6);
+      const number = randomInteger(1, 6);
       game.dice = [number];
 
       report.push(`Ходит игрок ${game.activePlayer.name}. На кубике выпало число ${number}`);
+
+      // рассчитать кто сколько кому платит по красным картам
+      game.players.forEach((player) => {
+        if (player.name !== game.activePlayer.name) {
+          for (const companyId in player.companies) {
+            if (CARDS[companyId].class === "red") {
+              const suchCompanyCount = player.companies[companyId];
+              for (let i = 0; i < suchCompanyCount; i++) {
+                report.push(CARD_EFFECTS[companyId](game.activePlayer, player));
+              }
+            }
+          }
+        }
+      });
+
       // рассчитать заработки всех игроков на основе их предприятий
       game.players.map((player) => {
         const incomeReport = player.addIncome(number, player.name === game.activePlayer.name);

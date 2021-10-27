@@ -29,10 +29,18 @@ class Player {
     this.cash += amount;
   }
 
+  takeMoney(amount) {
+    this.cash -= amount;
+    if (this.cash < 0) this.cash = 0;
+  }
+
   addIncome(diceNumber, hisTurn) {
     const incomeReport = [];
     for (const companyId in this.companies) {
-      if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
+      if (
+        CARDS[companyId].class !== "red" &&
+        CARDS[companyId].effectOn.some((item) => item === diceNumber)
+      ) {
         const suchCompanyCount = this.companies[companyId];
         for (let i = 0; i < suchCompanyCount; i++) {
           const report = CARD_EFFECTS[companyId](this, hisTurn);

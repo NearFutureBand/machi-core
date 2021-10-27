@@ -17,7 +17,6 @@ import {
 const App = () => {
   const dispatch = useDispatch();
   const sendWebsocketMessage = useWebsocketSend();
-  const isRegistered = useSelector(getIsRegistered);
   const game = useSelector(getGame);
   const me = useSelector(getMe);
   const playerName = useSelector(getPlayerName);

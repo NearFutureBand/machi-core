@@ -18,6 +18,12 @@ const CARD_EFFECTS = {
     player.addMoney(1);
     return "добавлена 1 монета";
   },
+  5: (activePlayer, anotherPlayer) => {
+    const amount = 1;
+    activePlayer.takeMoney(amount);
+    anotherPlayer.addMoney(amount);
+    return `${activePlayer.name} отдает игроку ${anotherPlayer.name} ${amount}`;
+  },
 };
 
 module.exports = {
