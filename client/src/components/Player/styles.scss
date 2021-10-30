@@ -1,0 +1,17 @@
+.player {
+  border-radius: 1rem;
+  padding: 2rem 1rem;
+  margin: 1rem 0rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+  .cards .sights > div,
+  .cards .companies > div {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .cards .sights > h4,
+  .cards .companies > h4 {
+    margin: 0.5rem;
+  }
+}

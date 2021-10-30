@@ -6,7 +6,7 @@ import { Modal } from "../Modal";
 import { getIsPhaseBuilding } from "../../redux-toolkit/slices";
 import { useWebsocketSend } from "../WebsocketController";
 
-import "./styles.css";
+import "./styles.scss";
 
 const Player = memo(({ player }) => {
   const sendWebsocketMessage = useWebsocketSend();
@@ -18,7 +18,7 @@ const Player = memo(({ player }) => {
   }
 
   const onSightClick = (card) => {
-    if (isPhaseBuilding) {
+    if (isPhaseBuilding && !(card.id in player.sights)) {
       setSelectedSight(card);
     }
   }
@@ -32,20 +32,24 @@ const Player = memo(({ player }) => {
       <h3>{player.name}. Деньги: {player.cash}</h3>
       <div className="cards">
         <div className="sights">
-          <span>Достопримечательности</span>
-          {Object.entries(player.sights).map(([cardId, isOpen]) => (
-            <Card id={cardId} key={cardId} isOpen={isOpen} onClick={onSightClick}/>
-          ))}
+          <h4>Достопримечательности</h4>
+          <div>
+            {Object.entries(player.sights).map(([cardId, isOpen]) => (
+              <Card id={cardId} key={cardId} isOpen={isOpen} onClick={onSightClick}/>
+            ))}
+          </div>
         </div>
         <div className="companies">
-          Предприятия
+          <h4>Предприятия</h4>
+          <div>
           {Object.entries(player.companies).map(([cardId, howMany]) => (
             <Card id={cardId} key={cardId} howMany={howMany} />
           ))}
+          </div>
         </div>
       </div>
 
-      {selectedSight && (
+      {isPhaseBuilding && selectedSight && (
         <Modal hideCloseButtons layer={2}>
           <div className="confirm-company-purchase">
             <h3>Построить достопримечательность {selectedSight.name}?</h3>

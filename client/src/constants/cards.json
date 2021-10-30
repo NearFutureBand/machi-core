@@ -2,19 +2,19 @@
   "0": {
     "id": 0,
     "name": "Пшеничное поле",
-    "price": 0,
+    "price": 1,
     "effectOn": [1],
     "type": "company",
-    "default": true,
+    "default": false,
     "class": "blue"
   },
   "1": {
     "id": 1,
     "name": "Пекарня",
-    "price": 0,
+    "price": 1,
     "effectOn": [2, 3],
     "type": "company",
-    "default": true,
+    "default": false,
     "class": "green"
   },
   "2": {
@@ -58,14 +58,6 @@
     "name": "Парк развлечений",
     "price": 16,
     "type": "sight"
-  },
-  "8": {
-    "id": 8,
-    "name": "Пекарня",
-    "price": 1,
-    "effectOn": [2, 3],
-    "type": "company",
-    "class": "green"
   },
   "9": {
     "id": 9,
@@ -140,13 +132,5 @@
     "effectOn": [2],
     "type": "company",
     "class": "green"
-  },
-  "19": {
-    "id": 19,
-    "name": "Пшеничное поле",
-    "price": 1,
-    "effectOn": [1],
-    "type": "company",
-    "class": "blue"
   }
 }

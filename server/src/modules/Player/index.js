@@ -19,8 +19,8 @@ class Player {
   }
 
   _prepareDefaultCompanies() {
-    return DEFAULT_COMPANIES.reduce((result, sight) => {
-      result[sight] = 1;
+    return DEFAULT_COMPANIES.reduce((result, company) => {
+      result[company] = 1;
       return result;
     }, {});
   }

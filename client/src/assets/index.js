@@ -26,8 +26,14 @@ import supermarket from './images/supermarket.png';
 import wheatField from './images/wheatField.png';
 
 export const CARD_IMAGES = {
-  0: wheatFieldFree,
-  1: bakeryFree,
+  0: {
+    free: wheatFieldFree,
+    paid: wheatField,
+  },
+  1: {
+    free: bakeryFree,
+    paid: bakery,
+  },
   2: pharm,
   3: {
     open: townHall,
@@ -45,7 +51,7 @@ export const CARD_IMAGES = {
     open: amusementPark,
     closed: amusementParkClosed,
   },
-  8: bakery,
+  // 8
   9: cheeseDairy,
   10: cornfield,
   11: dismantlingCompany,
@@ -65,5 +71,4 @@ export const CARD_IMAGES = {
     closed: shoppingMallClosed,
   },
   18: supermarket,
-  19: wheatField
 }

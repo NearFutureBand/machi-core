@@ -32,8 +32,6 @@ wsServer.on("connection", (wsClient) => {
     }
 
     if (message.type === MESSAGE_TYPES.PHASE_INCOME) {
-      // сгенерить число на кубике, его положить в респонс
-      // кейс если два кубика
       const number = randomInteger(1, 6);
       game.dice = [number];
 
@@ -43,7 +41,10 @@ wsServer.on("connection", (wsClient) => {
       game.players.forEach((player) => {
         if (player.name !== game.activePlayer.name) {
           for (const companyId in player.companies) {
-            if (CARDS[companyId].class === "red") {
+            if (
+              CARDS[companyId].class === "red" &&
+              CARDS[companyId].effectOn.some((item) => item === number)
+            ) {
               const suchCompanyCount = player.companies[companyId];
               for (let i = 0; i < suchCompanyCount; i++) {
                 report.push(CARD_EFFECTS[companyId](game.activePlayer, player));
