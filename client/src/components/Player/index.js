@@ -7,6 +7,7 @@ import { getIsPhaseBuilding } from "../../redux-toolkit/slices";
 import { useWebsocketSend } from "../WebsocketController";
 
 import "./styles.scss";
+import CARDS from "../../constants/cards.json";
 
 const Player = memo(({ player }) => {
   const sendWebsocketMessage = useWebsocketSend();
@@ -18,7 +19,7 @@ const Player = memo(({ player }) => {
   }
 
   const onSightClick = (card) => {
-    if (isPhaseBuilding && !(card.id in player.sights)) {
+    if (isPhaseBuilding && !player.sights[card.id] && player.cash >= CARDS[card.id].price) {
       setSelectedSight(card);
     }
   }
@@ -27,6 +28,19 @@ const Player = memo(({ player }) => {
     sendWebsocketMessage("PHASE_BUILDING", { cardId: selectedSight.id });
   }
 
+  const sights = Object.entries(player.sights).map(([cardId, isOpen]) => ({
+    cardId,
+    isOpen
+  })).sort((a, b) => {
+    if (CARDS[a.cardId].price > CARDS[b.cardId].price) {
+      return 1;
+    }
+    if (CARDS[a.cardId].price < CARDS[b.cardId].price) {
+      return -1;
+    }
+    return 0;
+  });
+
   return (
     <div className="player">
       <h3>{player.name}. Деньги: {player.cash}</h3>
@@ -34,7 +48,7 @@ const Player = memo(({ player }) => {
         <div className="sights">
           <h4>Достопримечательности</h4>
           <div>
-            {Object.entries(player.sights).map(([cardId, isOpen]) => (
+            {sights.map(({ cardId, isOpen }) => (
               <Card id={cardId} key={cardId} isOpen={isOpen} onClick={onSightClick}/>
             ))}
           </div>

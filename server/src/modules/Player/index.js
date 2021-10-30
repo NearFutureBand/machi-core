@@ -1,7 +1,7 @@
 const { CARDS, CARD_EFFECTS } = require("../Cards");
 
 const DEFAULT_COMPANIES = [0, 1];
-const DEFAULT_SIGHTS = [3, 4];
+const DEFAULT_SIGHTS = [3, 4, 15, 14, 6, 7, 17];
 
 class Player {
   constructor(name) {
