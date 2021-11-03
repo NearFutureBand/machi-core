@@ -10,6 +10,7 @@ import {
   setIsGameStarted,
   setIsPhaseIncome,
   setIsPhaseBuilding,
+  setName
 } from "../../redux-toolkit/slices";
 
 import "./styles.css";
@@ -18,6 +19,7 @@ let socket = null;
 
 const WebsocketController = memo(() => {
   const dispatch = useDispatch();
+  const playerName = useSelector(getPlayerName);
 
   const isConnected = Boolean(socket);
 
@@ -26,9 +28,20 @@ const WebsocketController = memo(() => {
     console.log("CLIENT: message received", action);
 
     if (action.type === "REGISTER") {
+      /** На случай если playerId уже есть в локалсторадже, и это
+       * сообщение пришло, значит попытка авторелогина выполнена
+       * успешно. Тогда нужно заново установить
+       * name в редаксе, чтобы игра думала что мы его ввели в инпут
+       * при регистрации
+      */
+      const playerId = localStorage.getItem("playerId");
+      if (playerName === "" && playerId) {
+        dispatch(setName(playerId));
+      }
       if (action.game) {
         dispatch(registerPlayer(action.game));
       }
+      localStorage.setItem("playerId", action.playerId);
     }
 
     if (action.type === "START_GAME") {
@@ -56,6 +69,9 @@ const WebsocketController = memo(() => {
   const onWebsocketOpen = () => {
     console.log('CLIENT: connected to the server');
     dispatch(addReport(["Успешно подключен к серверу"]));
+    if (localStorage.getItem("playerId")) {
+      socket?.send(JSON.stringify({ type: "CONNECTION", playerId: localStorage.getItem("playerId") }));
+    }
   }
 
   const openWebsocketConnection = () => {

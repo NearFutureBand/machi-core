@@ -46,6 +46,13 @@ const CARD_EFFECTS = {
   12: (player) => {
     player.addMoney(1);
   },
+  // Цветочный магазин - по 1 монете активному игроку
+  13: (player, isActive) => {
+    if (!isActive) return;
+    const flowerGardens = player.companies[13];
+    player.addMoney(flowerGardens);
+    return `добавлено ${flowerGardens} монет за ${flowerGardens} цветников`;
+  },
 };
 
 module.exports = {
