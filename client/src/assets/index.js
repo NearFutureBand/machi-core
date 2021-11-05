@@ -24,6 +24,14 @@ import shoppingMall from './images/shoppingMall.png';
 import shoppingMallClosed from './images/shoppingMallClosed.png';
 import supermarket from './images/supermarket.png';
 import wheatField from './images/wheatField.png';
+import creditBank from './images/creditBank.png';
+import forest from './images/forest.png';
+import prestigiousRestaurant from './images/prestigiousRestaurant.png';
+import stadium from './images/stadium.png';
+import sushiBar from './images/sushiBar.png';
+import telecentre from './images/telecentre.png';
+import businessCenter from './images/businessCenter.png';
+
 
 export const CARD_IMAGES = {
   0: {
@@ -51,7 +59,7 @@ export const CARD_IMAGES = {
     open: amusementPark,
     closed: amusementParkClosed,
   },
-  // 8
+  8: creditBank,
   9: cheeseDairy,
   10: cornfield,
   11: dismantlingCompany,
@@ -71,4 +79,10 @@ export const CARD_IMAGES = {
     closed: shoppingMallClosed,
   },
   18: supermarket,
+  19: forest,
+  20: sushiBar,
+  21: prestigiousRestaurant,
+  22: stadium,
+  23: telecentre,
+  24: businessCenter,
 }

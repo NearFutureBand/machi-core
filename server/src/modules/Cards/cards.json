@@ -59,6 +59,14 @@
     "price": 16,
     "type": "sight"
   },
+  "8": {
+    "id": 9,
+    "name": "Кредитный банк",
+    "price": 0,
+    "effectOn": [5,6],
+    "type": "company",
+    "class": "green"
+  },
   "9": {
     "id": 9,
     "name": "Сыроварня",
@@ -132,5 +140,53 @@
     "effectOn": [2],
     "type": "company",
     "class": "green"
+  },
+  "19": {
+    "id": 19,
+    "name": "Лес",
+    "price": 3,
+    "effectOn": [5],
+    "type": "company",
+    "class": "blue"
+  },
+  "20": {
+    "id": 20,
+    "name": "Суши бар",
+    "price": 2,
+    "effectOn": [1],
+    "type": "company",
+    "class": "red"
+  },
+  "21": {
+    "id": 21,
+    "name": "Престижный ресторан",
+    "price": 3,
+    "effectOn": [5],
+    "type": "company",
+    "class": "red"
+  },
+  "22": {
+    "id": 22,
+    "name": "Стадион",
+    "price": 6,
+    "effectOn": [6],
+    "type": "company",
+    "class": "violet"
+  },
+  "23": {
+    "id": 22,
+    "name": "Телецентр",
+    "price": 7,
+    "effectOn": [6],
+    "type": "company",
+    "class": "violet"
+  },
+  "24": {
+    "id": 24,
+    "name": "Деловой центр",
+    "price": 8,
+    "effectOn": [6],
+    "type": "company",
+    "class": "violet"
   }
 }
