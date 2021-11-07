@@ -10,20 +10,20 @@ import { useSelector } from "react-redux";
 import { Reports, Registration, Lobby, WebsocketController } from "../components";
 import App from '../App';
 import "./styles.scss";
+import { getGame } from "../redux-toolkit/slices";
 
 export default function Navigator() {
   const isAnybodyRegistered = useSelector(state => state.app.isRegistered);
   const isConnectedToServer = useSelector(state => state.app.isConnected);
-  const isGameStarted = useSelector(state => state.app.isGameStarted);
+  const game = useSelector(getGame);
 
   return (
     <Router>
       <div className="navigator">
         <WebsocketController />
-        { !isConnectedToServer && <Redirect to="/registration" />}
-        { !isAnybodyRegistered && <Redirect to="/registration" />}
-        {(isAnybodyRegistered && !isGameStarted) && <Redirect to="/lobby" />}
-        {(isAnybodyRegistered && isGameStarted) && <Redirect to="/" />}
+        {!isAnybodyRegistered && <Redirect to="/registration" />}
+        {(isAnybodyRegistered && game.status === "AWAITING_PLAYERS") && <Redirect to="/lobby" />}
+        {(isAnybodyRegistered && ( game.status === "AWAITING_DICE" || game.status === "AWAITING_BUILDING")) && <Redirect to="/" />}
         <Switch>
           <Route path="/registration">
             <Registration />

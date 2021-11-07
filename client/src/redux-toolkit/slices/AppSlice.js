@@ -10,6 +10,7 @@ export const AppSlice = createSlice({
     game: {},
     isPhaseIncome: false,
     isPhaseBuilding: false,
+    requestToReconnect: false,
   },
   reducers: {
     setIsConnected: (state, action) => { state.isConnected = action.payload },
@@ -23,6 +24,7 @@ export const AppSlice = createSlice({
     setGame: (state, action) => { state.game = action.payload },
     setIsPhaseIncome: (state, action) => { state.isPhaseIncome = action.payload },
     setIsPhaseBuilding: (state, action) => { state.isPhaseBuilding = action.payload },
+    setRequestToReconnect: (state, action) => { state.requestToReconnect = action.payload },
   },
 });
 
@@ -44,6 +46,7 @@ export const getMe = state => {
 }
 export const getIsPhaseIncome = state => state.app.isPhaseIncome;
 export const getIsPhaseBuilding = state => state.app.isPhaseBuilding;
+export const getRequestToReconnect = state => state.app.requestToReconnect;
 
 export const {
   setIsConnected,
@@ -53,5 +56,6 @@ export const {
   setGame,
   setIsPhaseIncome,
   setIsPhaseBuilding,
+  setRequestToReconnect,
 } = AppSlice.actions;
 export const AppReducer = AppSlice.reducer;

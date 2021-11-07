@@ -9,8 +9,6 @@ import {
   getIsRegistered,
   getMe,
   getPlayerName,
-  getIsPhaseIncome,
-  getIsPhaseBuilding,
 } from "./redux-toolkit/slices";
 
 
@@ -20,9 +18,6 @@ const App = () => {
   const game = useSelector(getGame);
   const me = useSelector(getMe);
   const playerName = useSelector(getPlayerName);
-  const isPhaseIncome = useSelector(getIsPhaseIncome);
-  const isPhaseBuilding = useSelector(getIsPhaseBuilding);
-
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   
   const activePlayerName = useMemo(() => {
@@ -46,10 +41,10 @@ const App = () => {
       <div className="whos-turn">{amIActivePlayer ? `Ваш ход, ${activePlayerName}!` : `Ходит: ${activePlayerName}`}</div>
       {amIActivePlayer && (
         <div>
-          {isPhaseIncome && (
+          {game.status === "AWAITING_DICE" && (
             <button onClick={startStepPhaseOne}>Бросить кубик</button>
           )}
-          {isPhaseBuilding && (
+          {game.status === "AWAITING_BUILDING" && (
             <>
               <h3>Выпавшее число: {game.dice[0]}</h3>
               <button onClick={() => setIsStoreOpen(true)}>Купить предприятие</button>

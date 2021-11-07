@@ -5,6 +5,7 @@ class Game {
     this.players = [];
     this.activePlayer = null;
     this.dice = [];
+    this.status = "AWAITING_PLAYERS";
   }
 
   addPlayer(player) {
@@ -13,6 +14,7 @@ class Game {
 
   start() {
     this.activePlayer = this.players[getRandomIntInclusive(0, this.players.length - 1)];
+    this.status = "AWAITING_DICE";
   }
 
   setNextActivePlayer() {
@@ -23,6 +25,7 @@ class Game {
       currentActivePlayerIndex === this.players.length - 1 ? 0 : currentActivePlayerIndex + 1;
     this.activePlayer = this.players[nextActivePlayerIndex];
     this.dice = [];
+    this.status = "AWAITING_DICE";
   }
 }
 

@@ -12,25 +12,28 @@ const onMessage = (m, clientId, wsClient, clients) => {
   const message = JSON.parse(m);
   let messageType = message.type;
   let report = [];
+  const additionalMessagePayload = {};
   console.log("SERVER: message: ", messageType);
 
   if (message.type === MESSAGE_TYPES.CONNECTION) {
     console.log(message.playerId);
     const player = game.players.find((player) => player.name === message.playerId);
     if (!player) {
-      console.log("Невозможно переподключиться");
+      report.push("Невозможно переподключиться");
+      wsClient.send(JSON.stringify({ type: messageType, report }));
       return;
     }
-
     names[player.name] = clientId;
     report.push(`Игрок ${player.name} переподключился`);
     messageType = MESSAGE_TYPES.REGISTER; // TODO register???
+    additionalMessagePayload.playerId = player.name;
   }
 
   if (message.type === MESSAGE_TYPES.REGISTER) {
-    game.addPlayer(new Player(message.name));
-    names[message.name] = clientId;
-    report.push(`Игрок ${message.name} зарегистрировался`);
+    game.addPlayer(new Player(message.playerId));
+    names[message.playerId] = clientId;
+    report.push(`Игрок ${message.playerId} зарегистрировался`);
+    additionalMessagePayload.playerId = message.playerId;
   }
 
   if (message.type === MESSAGE_TYPES.START_GAME) {
@@ -41,6 +44,7 @@ const onMessage = (m, clientId, wsClient, clients) => {
   if (message.type === MESSAGE_TYPES.PHASE_INCOME) {
     const number = randomInteger(1, 6);
     game.dice = [number];
+    game.status = "PHASE_INCOME";
 
     report.push(`Ходит игрок ${game.activePlayer.name}. На кубике выпало число ${number}`);
 
@@ -67,6 +71,7 @@ const onMessage = (m, clientId, wsClient, clients) => {
       report = [...report, ...incomeReport];
       return player;
     });
+    game.status = "AWAITING_BUILDING";
   }
 
   if (message.type === MESSAGE_TYPES.PHASE_BUILDING) {
@@ -75,23 +80,22 @@ const onMessage = (m, clientId, wsClient, clients) => {
     // добавляем id карты в нужный объект
     const buildingReport = game.activePlayer.build(message.cardId);
     report.push(buildingReport);
-    // переключить activePlayer
     game.setNextActivePlayer();
   }
+
   console.log(names);
   for (const clientKey in clients) {
     console.log(clientKey, Boolean(clients[clientKey]));
   }
+
   Object.values(names).forEach((playerKey) => {
     if (clients[playerKey]) {
-      clients[playerKey].send(
-        JSON.stringify({
-          type: messageType,
-          game,
-          report,
-          playerId: message.name || message.playerId,
-        })
-      );
+      clients[playerKey].send(JSON.stringify({
+        ...additionalMessagePayload,
+        type: messageType,
+        game,
+        report,
+      }));
     }
   });
 };
