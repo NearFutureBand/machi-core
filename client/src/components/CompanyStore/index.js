@@ -5,12 +5,13 @@ import CARDS from "../../constants/cards.json";
 import { Card } from "../Card";
 import { Modal } from "../Modal";
 import { getMe } from "../../redux-toolkit/slices";
+import { sortCompaniesByClassAndEffect } from "../../helpers";
 import "./styles.scss";
 
 const CompanyStore = memo(({ onClose, onBuyCard }) => {
 
   const me = useSelector(getMe);
-  const companies = Object.values(CARDS).filter(card => card.type === "company" && !card.default);
+  const companies = sortCompaniesByClassAndEffect(CARDS);
   const [selectedCard, setSelectedCard] = useState(null);
 
   const closeConfirmModal = () => {

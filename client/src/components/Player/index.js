@@ -5,6 +5,7 @@ import { Card } from "../Card";
 import { Modal } from "../Modal";
 import { getIsPhaseBuilding } from "../../redux-toolkit/slices";
 import { useWebsocketSend } from "../WebsocketController";
+import { sortCompaniesForPlayer } from "../../helpers";
 
 import "./styles.scss";
 import CARDS from "../../constants/cards.json";
@@ -41,6 +42,8 @@ const Player = memo(({ player }) => {
     return 0;
   });
 
+  const companies = sortCompaniesForPlayer(player.companies);
+
   return (
     <div className="player">
       <h3>{player.name}. Деньги: {player.cash}</h3>
@@ -56,8 +59,8 @@ const Player = memo(({ player }) => {
         <div className="companies">
           <h4>Предприятия</h4>
           <div>
-          {Object.entries(player.companies).map(([cardId, howMany]) => (
-            <Card id={cardId} key={cardId} howMany={howMany} />
+          {companies.map((company) => (
+            <Card id={company.id} key={company.id} howMany={company.howMany} />
           ))}
           </div>
         </div>

@@ -60,7 +60,7 @@
     "type": "sight"
   },
   "8": {
-    "id": 9,
+    "id": 8,
     "name": "Кредитный банк",
     "price": 0,
     "effectOn": [5,6],
@@ -97,7 +97,7 @@
     "price": 2,
     "effectOn": [4],
     "type": "company",
-    "class": "green"
+    "class": "blue"
   },
   "13": {
     "id": 13,
