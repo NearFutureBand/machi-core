@@ -34,7 +34,7 @@ class Player {
     if (this.cash < 0) this.cash = 0;
   }
 
-  addIncome(diceNumber, hisTurn) {
+  addIncome(diceNumber, game) {
     const incomeReport = [];
     try {
       for (const companyId in this.companies) {
@@ -47,7 +47,7 @@ class Player {
         ) {
           const suchCompanyCount = this.companies[companyId];
           for (let i = 0; i < suchCompanyCount; i++) {
-            const report = CARD_EFFECTS[companyId](this, hisTurn);
+            const report = CARD_EFFECTS[companyId](this, game);
             if (report) {
               incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
             }

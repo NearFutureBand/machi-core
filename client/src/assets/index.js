@@ -30,7 +30,7 @@ import prestigiousRestaurant from './images/prestigiousRestaurant.png';
 import stadium from './images/stadium.png';
 import sushiBar from './images/sushiBar.png';
 import telecentre from './images/telecentre.png';
-import businessCenter from './images/businessCenter.png';
+import businessСenter from './images/businessСenter.png';
 
 
 export const CARD_IMAGES = {
@@ -84,5 +84,5 @@ export const CARD_IMAGES = {
   21: prestigiousRestaurant,
   22: stadium,
   23: telecentre,
-  24: businessCenter,
+  24: businessСenter,
 }

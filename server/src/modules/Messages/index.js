@@ -63,7 +63,7 @@ const onMessage = (m, clientId, wsClient, clients) => {
 
     // рассчитать заработки всех игроков на основе их предприятий
     game.players.map((player) => {
-      const incomeReport = player.addIncome(number, player.name === game.activePlayer.name);
+      const incomeReport = player.addIncome(number, game);
       report = [...report, ...incomeReport];
       return player;
     });

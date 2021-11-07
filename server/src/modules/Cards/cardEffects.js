@@ -1,28 +1,27 @@
-const addMoney = (amount) => (player) => {
-  player.addMoney(amount);
-};
-
 const countOpenedSights = (playerSights) => {
   return Object.values(playerSights).reduce((count, isOpened) => (isOpened ? count + 1 : count), 0);
 };
 
-// TODO later
-const isActive = () => {};
+const isActive = (game, player) => game.activePlayer.name === player.name;
 
 const CARD_EFFECTS = {
+  // Пшеничное поле
   0: (player) => {
     player.addMoney(1);
     return "добавлена 1 монета";
   },
-  1: (player, isActive) => {
-    if (!isActive) return;
-    addMoney(1)(player);
+  // Пекарня
+  1: (player, game) => {
+    if (!isActive(game, player)) return;
+    player.addMoney(1);
     return "добавлена 1 монета активному игроку";
   },
+  // Ферма
   2: (player) => {
     player.addMoney(1);
     return "добавлена 1 монета";
   },
+  // Кафе
   5: (activePlayer, anotherPlayer) => {
     const amount = 1;
     activePlayer.takeMoney(amount);
@@ -30,8 +29,8 @@ const CARD_EFFECTS = {
     return `${activePlayer.name} отдает игроку ${anotherPlayer.name} ${amount}`;
   },
   // Кредитный банк. При покупке 5 получается 5 монет. Затем в ход отдается по 2 монеты
-  8: (player, isActive) => {
-    if (!isActive) return;
+  8: (player, game) => {
+    if (!isActive(game, player)) return;
     player.takeMoney(2);
     return "активный игрок отдает 2 монеты";
   },
@@ -57,23 +56,24 @@ const CARD_EFFECTS = {
   // Цветник
   12: (player) => {
     player.addMoney(1);
+    return "добавлена 1 монета";
   },
   // Цветочный магазин - по 1 монете активному игроку
-  13: (player, isActive) => {
-    if (!isActive) return;
+  13: (player, game) => {
+    if (!isActive(game, player)) return;
     const flowerGardens = player.companies[13];
     player.addMoney(flowerGardens);
     return `добавлено ${flowerGardens} монет за ${flowerGardens} цветников`;
   },
   // Магазин - 3 монеты активному игроку
-  16: (player, isActive) => {
-    if (!isActive) return;
+  16: (player, game) => {
+    if (!isActive(game, player)) return;
     player.addMoney(3);
-    return "добавлена 3 монеты активному игроку";
+    return "добавлено 3 монеты активному игроку";
   },
   // Универсам - 2 монеты если не более 1-й достопримечательности
-  18: (player, isActive) => {
-    if (!isActive) return;
+  18: (player, game) => {
+    if (!isActive(game, player)) return;
     const openedSights = countOpenedSights(player.sights);
     if (openedSights <= 1) {
       player.addMoney(2);
@@ -105,6 +105,29 @@ const CARD_EFFECTS = {
       return `${activePlayer.name} отдает игроку ${anotherPlayer.name} ${amount}`;
     }
   },
+  // Стадион - активный игрок берет у каждого по две монеты
+  22: (player, game) => {
+    if (!isActive(game, player)) {
+      return;
+    }
+    let report = "";
+    game.players.forEach((player) => {
+      if (player.name !== game.activePlayer.name) {
+        const amount = 2;
+        player.takeMoney(amount);
+        game.activePlayer.addMoney(amount);
+        `${report} получено ${amount} от игрока ${player.name}`;
+      }
+    });
+    return report;
+  },
+  // 23, 24 TODO требуется действие от игрока
+  // 23: () => {
+
+  // },
+  // 24: () => {
+
+  // }
 };
 
 module.exports = {
