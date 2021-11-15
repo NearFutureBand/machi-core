@@ -7,9 +7,9 @@ import {
   setGame,
   registerPlayer,
   addReport,
-  setIsGameStarted,
-  setIsPhaseIncome,
-  setIsPhaseBuilding,
+  getRequestToReconnect,
+  setName,
+  setRequestToReconnect,
 } from "../../redux-toolkit/slices";
 
 import "./styles.css";
@@ -18,33 +18,39 @@ let socket = null;
 
 const WebsocketController = memo(() => {
   const dispatch = useDispatch();
-
-  const isConnected = Boolean(socket);
+  const playerName = useSelector(getPlayerName);
+  const requestToReconnect = useSelector(getRequestToReconnect);
 
   const onWebsocketMessage = (message) => {
     const action = JSON.parse(message.data);
     console.log("CLIENT: message received", action);
 
+    if (action.type === "CONNECTION") {
+      localStorage.removeItem("playerId");
+    }
+
     if (action.type === "REGISTER") {
-      if (action.game) {
+      const playerId = localStorage.getItem("playerId");
+
+      if (playerName !== "" && playerName === action.playerId) {
+        dispatch(registerPlayer(action.game));
+        localStorage.setItem("playerId", action.playerId);
+      }
+
+      if (playerName === "" && playerId === action.playerId) {
+        dispatch(setName(action.playerId));
         dispatch(registerPlayer(action.game));
       }
     }
 
     if (action.type === "START_GAME") {
-      dispatch(setIsGameStarted(true));
-      dispatch(setIsPhaseIncome(true));
     }
 
     if (action.type === "PHASE_INCOME") {
       dispatch(addReport(["-----------------"]));
-      dispatch(setIsPhaseIncome(false));
-      dispatch(setIsPhaseBuilding(true));
     }
 
     if (action.type === "PHASE_BUILDING") {
-      dispatch(setIsPhaseIncome(true));
-      dispatch(setIsPhaseBuilding(false));
     }
 
     if (action.game) {
@@ -53,23 +59,32 @@ const WebsocketController = memo(() => {
     dispatch(addReport(action.report));
   };
 
+  useEffect(() => {
+    if (!socket) return;
+    socket.onmessage = onWebsocketMessage;
+  }, [onWebsocketMessage]);
+
   const onWebsocketOpen = () => {
     console.log('CLIENT: connected to the server');
     dispatch(addReport(["Успешно подключен к серверу"]));
+    if (localStorage.getItem("playerId")) {
+      socket?.send(JSON.stringify({ type: "CONNECTION", playerId: localStorage.getItem("playerId") }));
+    }
   }
 
   const openWebsocketConnection = () => {
-    if (!isConnected) {
+    if (!socket) {
       socket = new WebSocket(API_ADRESS);
-      socket.addEventListener('open', onWebsocketOpen);
-      socket.addEventListener('message', onWebsocketMessage);
+      socket.onopen = onWebsocketOpen;
+      socket.onmessage = onWebsocketMessage;
     }
   }
 
   const closeWebsocketConnection = () => {
     socket?.close();
-    socket?.removeEventListener('open', onWebsocketOpen);
-    socket?.removeEventListener('message', onWebsocketMessage);
+    socket.onopen = undefined;
+    socket.onmessage = undefined;
+    socket = null;
   }
 
   const reConnectWebscoket = () => {
@@ -83,7 +98,14 @@ const WebsocketController = memo(() => {
       closeWebsocketConnection();
     }
   }, []);
-  
+
+  useEffect(() => {
+    if (requestToReconnect) {
+      reConnectWebscoket();
+      dispatch(setRequestToReconnect(false));
+    }
+  }, [requestToReconnect]);
+
   return null;
 });
 

@@ -1,3 +1,6 @@
+const jsonwebtoken = require("jsonwebtoken");
+const { SERVER_SECRET } = require("../constants");
+
 const getRandomIntInclusive = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -9,7 +12,14 @@ const randomInteger = (min, max) => {
   return Math.round(rand);
 };
 
+const makeJWT = (payload) => {
+  return jsonwebtoken.sign(payload, SERVER_SECRET, {
+    noTimestamp: true,
+  });
+};
+
 module.exports = {
   getRandomIntInclusive,
   randomInteger,
+  makeJWT,
 };

@@ -1,7 +1,7 @@
 const { CARDS, CARD_EFFECTS } = require("../Cards");
 
 const DEFAULT_COMPANIES = [0, 1];
-const DEFAULT_SIGHTS = [3, 4];
+const DEFAULT_SIGHTS = [3, 4, 15, 14, 6, 7, 17];
 
 class Player {
   constructor(name) {
@@ -19,8 +19,8 @@ class Player {
   }
 
   _prepareDefaultCompanies() {
-    return DEFAULT_COMPANIES.reduce((result, sight) => {
-      result[sight] = 1;
+    return DEFAULT_COMPANIES.reduce((result, company) => {
+      result[company] = 1;
       return result;
     }, {});
   }
@@ -29,18 +29,39 @@ class Player {
     this.cash += amount;
   }
 
-  addIncome(diceNumber, hisTurn) {
+  takeMoney(amount) {
+    this.cash -= amount;
+    if (this.cash < 0) this.cash = 0;
+  }
+
+  addIncome(diceNumber, game) {
     const incomeReport = [];
-    for (const companyId in this.companies) {
-      if (CARDS[companyId].effectOn.some((item) => item === diceNumber)) {
-        const suchCompanyCount = this.companies[companyId];
-        for (let i = 0; i < suchCompanyCount; i++) {
-          const report = CARD_EFFECTS[companyId](this, hisTurn);
-          if (report) {
-            incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+    try {
+      for (const companyId in this.companies) {
+        if (!CARDS[companyId]) {
+          throw new Error(`Нет эффекта для карты ${companyId}`);
+        }
+        if (
+          CARDS[companyId].class !== "red" &&
+          CARDS[companyId].effectOn.some((item) => item === diceNumber)
+        ) {
+          const suchCompanyCount = this.companies[companyId];
+          for (let i = 0; i < suchCompanyCount; i++) {
+            const report = CARD_EFFECTS[companyId](this, game);
+            if (report) {
+              incomeReport.push(`${this.name}: ${CARDS[companyId].name}: ${report}`);
+            }
           }
         }
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // если денег нет и есть ратуша добавить 1 монету
+    if (this.cash === 0 && 3 in this.sights) {
+      this.addMoney(1);
+      incomeReport.push(`${this.name}: Ратуша: получена 1 монета`);
     }
     return incomeReport;
   }
